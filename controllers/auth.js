@@ -50,3 +50,7 @@ module.exports.register = async (req, res) => {
 module.exports.me = (req, res) => {
   res.status(200).json(req.user);
 };
+
+module.exports.home = (req, res) => {
+  res.status(200).json(req.user);
+};

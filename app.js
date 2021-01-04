@@ -19,7 +19,9 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use(passport.initialize());
-require('./middleware/passport')(passport);
+app.use(passport.session());
+//require('./middleware/passport-jwt')(passport);
+require('./middleware/passport-local')(passport);
 
 app.use(morgan('dev'));
 app.use(cors());
@@ -31,5 +33,12 @@ app.use('/api/analytics', analyticsRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/order', orderRoutes);
 app.use('/api/position', positionRoutes);
+
+function checkAuth() {
+  return app.use((req, res, next) => {
+    if (req.user) next();
+    else res.redirect('/login');
+  });
+}
 
 module.exports = app;

@@ -11,4 +11,15 @@ router.post(
   controllers.me
 );
 
+router.post(
+  '/login2',
+  passport.authenticate('local', {
+    successRedirect: '/api/auth/home',
+    failureRedirect: '',
+    failureFlash: true,
+  })
+);
+
+router.get('/home', controllers.home);
+
 module.exports = router;
