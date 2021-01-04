@@ -15,11 +15,10 @@ router.post(
   '/login2',
   passport.authenticate('local', {
     successRedirect: '/api/auth/home',
-    failureRedirect: '',
-    failureFlash: true,
+    failureRedirect: '/api/auth/fail',
   })
 );
 
-router.get('/home', controllers.home);
+router.get('/home', require('../middleware/checkUser'), controllers.home);
 
 module.exports = router;

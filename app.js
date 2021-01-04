@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -18,15 +19,16 @@ mongoose
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.log(err));
 
-app.use(passport.initialize());
-app.use(passport.session());
-//require('./middleware/passport-jwt')(passport);
-require('./middleware/passport-local')(passport);
-
 app.use(morgan('dev'));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(session({ secret: 'you secret key' }));
+
+app.use(passport.initialize());
+app.use(passport.session());
+//require('./middleware/passport-jwt')(passport);
+require('./middleware/passport-local')(passport);
 
 app.use('/api/auth', authRoutes);
 app.use('/api/analytics', analyticsRoutes);
